@@ -20,7 +20,8 @@
 							<div class="ui top attached header">
 								<div class="flex-left-right">
 									<div class="ui compact small menu small-menu-items repo-editor-menu" data-repo-link="{{.RepoLink}}" data-ref-sub-url="{{.RefTypeNameSubURL}}" data-branch-name="{{.BranchName}}" data-global-init="initTabSwitcher">
-										<a class="active item" data-tab="write">{{svg "octicon-code"}} {{if .IsNewFile}}{{ctx.Locale.Tr "repo.editor.new_file"}}{{else}}{{ctx.Locale.Tr "repo.editor.edit_file"}}{{end}}</a>
+										<a class="active item" data-tab="rich_edit">{{svg "octicon-code"}} {{if .IsNewFile}}{{ctx.Locale.Tr "repo.editor.new_file"}}{{else}}{{ctx.Locale.Tr "repo.editor.edit_file"}}{{end}}</a>
+										<a class="item" data-tab="write">{{svg "octicon-code"}} {{if .IsNewFile}}{{ctx.Locale.Tr "repo.editor.new_file"}}{{else}}{{ctx.Locale.Tr "repo.editor.edit_file"}}{{end}}</a>
 										<a class="item {{if not .CodeEditorConfig.Previewable}}tw-hidden{{end}}" data-tab="preview">{{svg "octicon-eye"}} {{ctx.Locale.Tr "preview"}}</a>
 										{{if not .IsNewFile}}
 										<a class="item" data-tab="diff">{{svg "octicon-diff"}} {{ctx.Locale.Tr "repo.editor.preview_changes"}}</a>
@@ -30,7 +31,10 @@
 								</div>
 							</div>
 							<div class="ui bottom attached segment tw-p-0">
-								<div class="ui active tab tw-rounded-b" data-tab="write">
+								<div class="ui active tab tw-rounded-b" data-tab="rich_edit">
+									<div id="rich-editor"></div>
+								</div>
+								<div class="ui tab tw-rounded-b" data-tab="write">
 									<textarea id="edit_area" name="content" class="tw-hidden" data-id="repo-{{.Repository.Name}}-{{.TreePath}}"
 										data-code-editor-config="{{JsonUtils.EncodeToString $.CodeEditorConfig}}"
 										placeholder="{{ctx.Locale.Tr "editor.code_editor.placeholder"}}">{{.FileContent}}</textarea>

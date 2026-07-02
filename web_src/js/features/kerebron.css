@@ -1,0 +1,5 @@
+:root,
+:host {
+  --kb-color-surface-elevated: var(--color-body);
+  --kb-menu-dropdown-bg: var(--color-body);
+}

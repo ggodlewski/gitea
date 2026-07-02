@@ -6,6 +6,9 @@
     "pnpm": ">= 11.0.0"
   },
   "dependencies": {
+    "@kerebron/editor": "0.8.3",
+    "@kerebron/editor-kits": "0.8.3",
+    "@kerebron/wasm": "0.8.3",
     "@citation-js/core": "0.7.21",
     "@citation-js/plugin-bibtex": "0.7.21",
     "@citation-js/plugin-csl": "0.7.22",

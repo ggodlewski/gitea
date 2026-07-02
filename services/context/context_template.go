@@ -136,7 +136,8 @@ func (c TemplateContext) HeadMetaContentSecurityPolicy() template.HTML {
 		`default-src * data:;` +
 
 		// enforce nonce for all scripts, disallow inline scripts
-		`script-src * 'nonce-` + c.CspScriptNonce() + `';` +
+		// 'wasm-unsafe-eval' for WebAssembly, 'unsafe-eval' for web-tree-sitter.js which uses eval() internally
+		`script-src * 'nonce-` + c.CspScriptNonce() + `' 'wasm-unsafe-eval' 'unsafe-eval';` +
 
 		// it seems that Vue needs the unsafe-inline, and our custom colors (e.g.: label) also need it
 		`style-src * 'unsafe-inline';` +

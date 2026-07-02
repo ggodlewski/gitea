@@ -10,6 +10,7 @@ import {submitFormFetchAction} from './common-fetch-action.ts';
 import {dirname} from '../utils.ts';
 import {pathEscapeSegments} from '../utils/url.ts';
 import {showErrorToast} from '../modules/toast.ts';
+import {createRichEditor} from './kerebron.ts';
 
 function initEditPreviewTab(elForm: HTMLFormElement) {
   const elTabMenu = elForm.querySelector('.repo-editor-menu');
@@ -232,6 +233,30 @@ export function initRepoEditor() {
         }
       }
     });
+
+    const richEditor = createRichEditor(document.getElementById('rich-editor') || undefined);
+    if (richEditor) {
+      await richEditor.loadDocument('text/markdown', new TextEncoder().encode(editArea.value));
+
+      let mutex = 0;
+      richEditor.addEventListener('changed', async () => {
+        const buffer = await richEditor.saveDocument('text/markdown');
+        const value = new TextDecoder().decode(buffer);
+        mutex = 1;
+        editor.view.dispatch({
+          changes: {from: 0, to: editor.view.state.doc.length, insert: value},
+        });
+        mutex = 0;
+      });
+
+      const elTextarea = elForm.querySelector<HTMLTextAreaElement>('.tab[data-tab="write"] textarea');
+      elTextarea?.addEventListener('change', async () => {
+        if (mutex) {
+          return;
+        }
+        await richEditor.loadDocument('text/markdown', new TextEncoder().encode(editArea.value));
+      });
+    }
   })();
 }
 
